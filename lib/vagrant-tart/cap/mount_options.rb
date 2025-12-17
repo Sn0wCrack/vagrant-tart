@@ -54,7 +54,7 @@ module VagrantPlugins
         end
 
         def self.mount_name(_machine, name, _data)
-          name.gsub(%r{[\s/\\]}, "_").sub(/^_/, "")
+          Digest::MD5.hexdigest(name)
         end
       end
     end
