@@ -193,6 +193,7 @@ module VagrantPlugins
           b.use Provision
           b.use SyncedFolderCleanup
           b.use SyncedFolders
+          b.use SetHostname
           b.use StartInstance
           b.use WaitForCommunicator
         end
