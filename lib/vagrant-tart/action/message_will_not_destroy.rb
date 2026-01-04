@@ -1,11 +1,15 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: BUSL-1.1
+# frozen_string_literal: true
+
+require "i18n"
 
 module VagrantPlugins
   module Tart
     module Action
+      # Action block to inform the user that the machine will not be destroyed.
       class MessageWillNotDestroy
-        def initialize(app, env)
+        def initialize(app, _env)
           @app = app
         end
 

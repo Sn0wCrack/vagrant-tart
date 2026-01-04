@@ -24,7 +24,7 @@ module VagrantPlugins
       autoload :VNCConnect, action_root.join("vnc_connect")
       autoload :MessageWillNotDestroy, action_root.join("message_will_not_destroy")
 
-      # Vargrant action "destroy".
+      # Vagrant action "destroy".
       def self.action_destroy
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
