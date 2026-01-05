@@ -34,7 +34,8 @@ module VagrantPlugins
 
           # virtiofs mount options
 
-          # For operating systems using systemd, we need to specify automounting and running prior-to remove filesystems being mounted
+          # For operating systems using systemd, we need to specify automounting
+          # and running prior-to remove filesystems being mounted
           # This mimics the behaviour of _netdev in standard systems
           if systemd?(comm)
             mount_options << "x-systemd.automount"
@@ -53,8 +54,14 @@ module VagrantPlugins
           TART_MOUNT_TYPE
         end
 
-        def self.mount_name(_machine, name, _data)
-          Digest::MD5.hexdigest(name)
+        def self.mount_name(_machine, name, data)
+          mount_options = data.fetch(:mount_options, [])
+
+          tag = mount_options.find { |option| option.start_with?("tag=") }
+                             &.split("=", 2)
+                             &.last
+
+          tag || Digest::MD5.hexdigest(name)
         end
       end
     end

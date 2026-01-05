@@ -10,7 +10,7 @@ require "vagrant/util/retryable"
 module VagrantPlugins
   module SyncedFolder
     # Contains helper methods for mounting folders on Unix-based systems.
-    module UnixMountHelpers # rubocop:disable Metrics/ModuleLength
+    module UnixMountHelpers
       def self.extended(klass)
         unless klass.class_variable_defined?(:@@logger)
           klass.class_variable_set(:@@logger, Log4r::Logger.new(klass.name.downcase)) # rubocop:disable Style/ClassVars
@@ -76,7 +76,7 @@ module VagrantPlugins
         { gid: mount_gid, uid: mount_uid }
       end
 
-      def find_mount_options_id(id_name, mount_options) # rubocop:disable Metrics/AbcSize
+      def find_mount_options_id(id_name, mount_options)
         id_line = mount_options.detect { |line| line.include?("#{id_name}=") }
         if id_line
           match = id_line.match(/,?#{Regexp.escape(id_name)}=(?<option_id>\d+),?/)
@@ -105,11 +105,11 @@ module VagrantPlugins
         NOTIFICATION
       end
 
-      def merge_mount_options(base, overrides) # rubocop:disable Metrics/AbcSize
+      def merge_mount_options(base, overrides)
         base = base.join(",").split(",")
         overrides = overrides.join(",").split(",")
-        b_kv = Hash[base.map { |item| item.split("=", 2) }]
-        o_kv = Hash[overrides.map { |item| item.split("=", 2) }]
+        b_kv = base.to_h { |item| item.split("=", 2) }
+        o_kv = overrides.to_h { |item| item.split("=", 2) }
         merged = {}.tap do |opts|
           (b_kv.keys + o_kv.keys).uniq.each do |key|
             opts[key] = o_kv.fetch(key, b_kv[key])
