@@ -55,7 +55,7 @@ module VagrantPlugins
 
             b1.use Call, GracefulHalt, :stopped, :running do |env2, b2|
               if !env2[:result]
-                b1.use StopInstance
+                b2.use StopInstance
               end
             end
           end
